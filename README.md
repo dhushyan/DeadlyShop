@@ -1,8 +1,8 @@
 # 🏍️ DeadlyShop — Motorcycle Accessories E-Commerce
 
-> **Final Year Academic Project** — Full-Stack Java Web App  
-> Stack: Java Servlets + JSP · MySQL · JDBC · Apache Tomcat 10+ · Maven
+DeadlyShop is a Java-based e-commerce web application developed as a placement project. It provides an online platform for purchasing premium motorcycle accessories such as helmets, gloves, jackets, riding boots, and visors.
 
+The application includes product browsing, shopping cart functionality, user authentication, and order management through a responsive and modern interface.
 ---
 
 ## 📁 Project Structure
@@ -225,4 +225,3 @@ git push -u origin main
 
 ---
 
-*Built as a final year placement project. Demonstrates full-stack Java EE development, DAO pattern, BCrypt security, AJAX interactions, and responsive dark-theme UI.*
