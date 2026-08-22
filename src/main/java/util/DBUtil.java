@@ -1,38 +1,43 @@
 package util;
 
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.Properties;
 
 /**
  * DBUtil — centralised JDBC connection factory.
- * Reads db.properties from the classpath (src/main/resources/).
+ *
+ * Database configuration is read from environment variables:
+ * DB_URL
+ * DB_USERNAME
+ * DB_PASSWORD
+ * DB_DRIVER
  */
 public class DBUtil {
 
-    private static String URL;
-    private static String USERNAME;
-    private static String PASSWORD;
-    private static String DRIVER;
+    private static final String URL =
+            System.getenv().getOrDefault(
+                    "DB_URL",
+                    "jdbc:mysql://localhost:3306/deadlyshop" +
+                    "?useSSL=false" +
+                    "&serverTimezone=Asia/Kolkata" +
+                    "&allowPublicKeyRetrieval=true"
+            );
+
+    private static final String USERNAME =
+            System.getenv().getOrDefault("DB_USERNAME", "root");
+
+    private static final String PASSWORD =
+            System.getenv().getOrDefault("DB_PASSWORD", "");
+
+    private static final String DRIVER =
+            System.getenv().getOrDefault(
+                    "DB_DRIVER",
+                    "com.mysql.cj.jdbc.Driver"
+            );
 
     static {
         try {
-            Properties props = new Properties();
-            InputStream is = DBUtil.class
-                    .getClassLoader()
-                    .getResourceAsStream("db.properties");
-            if (is == null) {
-                throw new RuntimeException(
-                    "db.properties not found in classpath. " +
-                    "Make sure it is in src/main/resources/");
-            }
-            props.load(is);
-            URL      = props.getProperty("db.url");
-            USERNAME = props.getProperty("db.username");
-            PASSWORD = props.getProperty("db.password");
-            DRIVER   = props.getProperty("db.driver");
             Class.forName(DRIVER);
         } catch (Exception e) {
             throw new ExceptionInInitializerError(e);
@@ -47,7 +52,10 @@ public class DBUtil {
     /** Silently close a connection (null-safe). */
     public static void closeConnection(Connection conn) {
         if (conn != null) {
-            try { conn.close(); } catch (SQLException ignored) {}
+            try {
+                conn.close();
+            } catch (SQLException ignored) {
+            }
         }
     }
 }
