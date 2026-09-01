@@ -16,15 +16,23 @@ public class HomeServlet extends HttpServlet {
     private final ProductDAO  productDAO  = new ProductDAO();
     private final CategoryDAO categoryDAO = new CategoryDAO();
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse res)
-            throws ServletException, IOException {
-        List<Category> categories = categoryDAO.getAllCategories();
-        List<Product>  featured   = productDAO.getAllProducts();
-        if (featured.size() > 8) featured = featured.subList(0, 8);
+@Override
+protected void doGet(HttpServletRequest req, HttpServletResponse res)
+        throws ServletException, IOException {
 
-        req.setAttribute("categories",       categories);
-        req.setAttribute("featuredProducts", featured);
-        req.getRequestDispatcher("/WEB-INF/views/index.jsp").forward(req, res);
+    List<Category> categories = categoryDAO.getAllCategories();
+
+    List<Product> featured = productDAO.getAllProducts();
+
+    System.out.println("Total products found: " + featured.size());
+
+    if (featured.size() > 8) {
+        featured = featured.subList(0, 8);
     }
+
+    req.setAttribute("categories", categories);
+    req.setAttribute("featuredProducts", featured);
+
+    req.getRequestDispatcher("/WEB-INF/views/index.jsp").forward(req, res);
+}
 }

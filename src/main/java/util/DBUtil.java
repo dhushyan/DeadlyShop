@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- * DBUtil — centralised JDBC connection factory.
+ * DBUtil - Centralized JDBC connection factory.
  *
  * Database configuration is read from environment variables:
  * DB_URL
@@ -18,10 +18,10 @@ public class DBUtil {
     private static final String URL =
             System.getenv().getOrDefault(
                     "DB_URL",
-                    "jdbc:mysql://localhost:3306/deadlyshop" +
-                    "?useSSL=false" +
-                    "&serverTimezone=Asia/Kolkata" +
-                    "&allowPublicKeyRetrieval=true"
+                    "jdbc:mysql://localhost:3306/deadlyshop"
+                            + "?useSSL=false"
+                            + "&serverTimezone=Asia/Kolkata"
+                            + "&allowPublicKeyRetrieval=true"
             );
 
     private static final String USERNAME =
@@ -44,12 +44,20 @@ public class DBUtil {
         }
     }
 
-    /** Returns a new JDBC Connection. Caller must close it. */
+    /**
+     * Returns a new JDBC connection.
+     */
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL, USERNAME, PASSWORD);
+        return DriverManager.getConnection(
+                URL,
+                USERNAME,
+                PASSWORD
+        );
     }
 
-    /** Silently close a connection (null-safe). */
+    /**
+     * Safely closes database connection.
+     */
     public static void closeConnection(Connection conn) {
         if (conn != null) {
             try {
