@@ -18,4 +18,5 @@ RUN sed -i 's/port="8080" protocol="HTTP\/1.1"/port="10000" protocol="HTTP\/1.1"
 
 EXPOSE 10000
 
+
 CMD ["catalina.sh", "run"]
